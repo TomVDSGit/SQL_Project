@@ -6,7 +6,7 @@ import matplotlib.cm as cm
 plt.style.use('dark_background')
 
 # Load the CSV data into a pandas DataFrame
-csv_file = '/Users/tom/Documents/SQL_Project/csv_files/Q1.csv'  # Replace with the path to your CSV file
+csv_file = '/Users/tom/Documents/SQL_Project/csv_files/Q1.csv'  
 data = pd.read_csv(csv_file)
 
 # Extract necessary columns: job_title_short and salary_year_avg
