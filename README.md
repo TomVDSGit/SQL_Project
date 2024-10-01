@@ -45,8 +45,39 @@ Through Python, I created a bar chart of the top 10 salaries for data analyst jo
 
 ![Top Paying Roles](project_sql/Q1_fig.png)
 *Bar graph visualizing the salary for the top 10 salaries for data analysts*
+ 
+ ### 2. Skills for Top Paying Jobs
+To understand what skills are required for the top-paying jobs, I joined the job postings with the skills data, providing insights into what employers value for high-compensation roles.
+```sql
+WITH top_paying_jobs AS (
+    SELECT
+        jpf.job_id, 
+        jpf.job_title, 
+        jpf.salary_year_avg, 
+        c.name AS company_name
+    FROM 
+        job_postings_fact AS jpf
+    LEFT JOIN company_dim AS c ON jpf.company_id = c.company_id
+    WHERE
+        job_title_short = 'Data Analyst' AND
+        job_location = 'Anywhere' AND
+        salary_year_avg IS NOT NULL
+    ORDER BY
+        salary_year_avg DESC
+    LIMIT 10
+)
 
+SELECT 
+    top_paying_jobs.*,
+    skills_dim.skills
+FROM top_paying_jobs
+INNER JOIN skills_job_dim ON top_paying_jobs.job_id = skills_job_dim.job_id
+INNER JOIN skills_dim ON skills_job_dim.skill_id = skills_dim.skill_id
+ORDER BY 
+    salary_year_avg DESC;
+```
 
+Through Python, I created a bar chart of the top 10 skills for data analyst jobs. The plotting code can be found here: [Top 10 Skills](project_sql/2_top_paying_jobs_skills.py)
 
-
-[def]: Q1_fig.png
+![Top Paying Skills](project_sql/Q2_fig.png)
+*Bar graph visualizing the count of skills for the top 10 paying jobs for data analysts; ChatGPT generated this graph from my SQL query results*
